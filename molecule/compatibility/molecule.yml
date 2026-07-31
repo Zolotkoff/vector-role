@@ -1,0 +1,16 @@
+---
+driver:
+  name: podman
+platforms:
+  - name: ubuntu-compat
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    command: /lib/systemd/systemd
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      remote_user: root
+verifier:
+  name: ansible
