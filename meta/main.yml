@@ -1,6 +1,8 @@
 ---
 galaxy_info:
   author: Zolotkoff
+  role_name: vector
+  namespace: zolotkoff
   description: Install and configure Vector
   license: MIT
   min_ansible_version: "2.10"
@@ -8,6 +10,10 @@ galaxy_info:
     - name: EL
       versions:
         - "7"
+        - "8"
+    - name: Ubuntu
+      versions:
+        - all
   galaxy_tags:
     - vector
     - logging

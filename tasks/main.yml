@@ -1,13 +1,24 @@
 ---
-- name: Get vector distrib
-  ansible.builtin.get_url:
-    url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.{{ vector_arch }}.rpm"
-    dest: "./vector-{{ vector_version }}.rpm"
-    mode: "0644"
-- name: Install vector package
+- name: Install vector on RedHat family
   become: true
   ansible.builtin.yum:
-    name: "./vector-{{ vector_version }}.rpm"
+    name: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.{{ vector_arch }}.rpm"
+    disable_gpg_check: true
+  when: ansible_os_family == "RedHat"
+
+- name: Install vector on Debian family
+  become: true
+  ansible.builtin.apt:
+    deb: "https://packages.timber.io/vector/{{ vector_version }}/vector_{{ vector_version }}-1_amd64.deb"
+  when: ansible_os_family == "Debian"
+
+- name: Create vector config directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/vector
+    state: directory
+    mode: "0755"
+
 - name: Deploy vector config
   become: true
   ansible.builtin.template:
